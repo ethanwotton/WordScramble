@@ -15,11 +15,11 @@ struct ContentView: View {
     @State private var showingError = false
     @State private var score = 0
     @State private var animationAmount = 0.0
-    
     var body: some View {
         NavigationStack {
             List {
                 Section {
+                    Text("Your score is \(score)")
                     TextField("Enter your word", text: $newWord)
                         .onSubmit(addNewWord)
                         .onAppear(perform: startGame)
@@ -108,11 +108,17 @@ struct ContentView: View {
             wordError(title: "Word not recognized", message: "You can't just make them up, you know!")
             return
         }
+        
+        
+        
         withAnimation(.spring(duration: 1, bounce: 0.5)) {
             animationAmount += 360
-            usedWords.insert(answer, at: 0)
+            score +=  newWord.count
+            withAnimation(.spring(duration: 1, bounce: 0.5)) {
+                animationAmount += 360
+                usedWords.insert(answer, at: 0)
+            }
         }
-        
         
         newWord = ""
         
